@@ -1,12 +1,12 @@
 import bg from "@/assets/auth/background.jpg";
-import fbLogo from "@/assets/auth/Facebook.png";
-import ggLogo from "@/assets/auth/Google.png";
 import ShareButton from "@/components/button/share.button";
 import TextBetweenLine from "@/components/text.between.line";
 import { APP_COLOR } from "@/utils/constant";
 import { LinearGradient } from "expo-linear-gradient";
+import { Link, Redirect } from "expo-router";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
-
+import fbLogo from "@/assets/auth/Facebook.png";
+import ggLogo from "@/assets/auth/Google.png";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
 });
 
 const WelcomePage = () => {
+  // if (true) {
+  //   return <Redirect href={"/(auth)/signup"}></Redirect>;
+  // }
   return (
     <ImageBackground style={{ flex: 1 }} source={bg}>
       <LinearGradient
@@ -107,13 +110,16 @@ const WelcomePage = () => {
                   justifyContent: "center",
                 }}>
                 <Text style={{ color: "white" }}>Don't have an account ?</Text>
-                <Text
-                  style={{
-                    color: "white",
-                    textDecorationLine: "underline",
-                  }}>
-                  Sign up.
-                </Text>
+
+                <Link href={"/(auth)/signup"}>
+                  <Text
+                    style={{
+                      color: "white",
+                      textDecorationLine: "underline",
+                    }}>
+                    Sign up.
+                  </Text>
+                </Link>
               </View>
             </View>
           </View>
