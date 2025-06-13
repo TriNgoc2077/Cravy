@@ -19,7 +19,7 @@ const TextBetweenLine = (props: IProps) => {
           borderBottomWidth: 1,
           paddingHorizontal: 35,
         }}></View>
-      <Text style={{ color: "white", position: "relative", top: 10 }}>
+      <Text style={{ color: "black", position: "relative", top: 10 }}>
         {title}
       </Text>
       <View
