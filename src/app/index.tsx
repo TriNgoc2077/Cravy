@@ -2,7 +2,7 @@ import ShareButton from "@/components/button/share.button";
 import TextBetweenLine from "@/components/text.between.line";
 import { APP_COLOR } from "@/utils/constant";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link, Redirect } from "expo-router";
+import { Link, Redirect, router } from "expo-router";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import bg from "@/assets/auth/background.jpg";
 import fbLogo from "@/assets/auth/Facebook.png";
@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
 });
 
 const WelcomePage = () => {
-	if (true) {
-		return <Redirect href={"/(auth)/verify"}></Redirect>;
-	}
+	// if (true) {
+	// 	return <Redirect href={"/(auth)/login"}></Redirect>;
+	// }
 	return (
 		<ImageBackground style={{ flex: 1 }} source={bg}>
 			<LinearGradient
@@ -92,7 +92,9 @@ const WelcomePage = () => {
 							<View>
 								<ShareButton
 									title="Start with your email"
-									onPress={() => alert("me")}
+									onPress={() =>
+										router.navigate("/(auth)/login")
+									}
 									textStyle={{
 										color: "#fff",
 										paddingVertical: 5,

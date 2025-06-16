@@ -117,7 +117,7 @@ const SignUpPage = () => {
 						Already have an account ?
 					</Text>
 
-					<Link href={"/(auth)/signup"}>
+					<Link href={"/(auth)/login"}>
 						<Text
 							style={{
 								color: "black",
