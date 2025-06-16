@@ -9,3 +9,8 @@ export const verifyCodeAPI = (email: string, code: string) => {
 	const url = `/api/v1/auth/verify-code`;
 	return axios.post<IBackendRes<any>>(url, { email, code });
 };
+
+export const resendCodeAPI = (email: string) => {
+	const url = `/api/v1/auth/verify-email`;
+	return axios.post<IBackendRes<any>>(url, { email });
+};
