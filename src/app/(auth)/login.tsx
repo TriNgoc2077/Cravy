@@ -34,27 +34,40 @@ const styles = StyleSheet.create({
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const handleLogin = async () => {
-    const res = await loginAPI(email, password);
     try {
+      setLoading(true);
+      const res = await loginAPI(email, password);
       if (res.data) {
         router.replace("/(tabs)");
       } else {
-        Toast.show(Array.isArray(res.message) ? res.message[0] : res.message, {
-          duration: Toast.durations.LONG,
-          textColor: "white",
-          backgroundColor: APP_COLOR.ORANGE,
-          opacity: 1,
-        });
         if (res.statusCode === 400) {
           router.replace({
             pathname: "/(auth)/verify",
             params: { email, isLogin: 1 },
           });
+        } else {
+          Toast.show(
+            Array.isArray(res.message) ? res.message[0] : res.message,
+            {
+              duration: Toast.durations.LONG,
+              textColor: "white",
+              backgroundColor: APP_COLOR.ORANGE,
+              opacity: 1,
+            }
+          );
         }
       }
     } catch (error) {
       console.log(error);
+      Toast.show("Some error occurred, please try again later!", {
+        duration: Toast.durations.LONG,
+        textColor: "white",
+        backgroundColor: "red",
+      });
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -84,6 +97,7 @@ const LoginPage = () => {
       <View style={{ marginVertical: 5 }}></View>
       <View>
         <ShareButton
+          loading={loading}
           title="Login"
           onPress={handleLogin}
           textStyle={{ color: "#fff", paddingVertical: 5 }}
