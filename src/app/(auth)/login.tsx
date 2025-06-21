@@ -7,6 +7,8 @@ import { Link, router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Toast from "react-native-root-toast";
+import { Formik } from "formik";
+import { LoginSchema } from "@/utils/validate.schema";
 
 const styles = StyleSheet.create({
   container: {
@@ -32,10 +34,8 @@ const styles = StyleSheet.create({
 });
 
 const LoginPage = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const handleLogin = async () => {
+  const handleLogin = async (email: string, password: string) => {
     try {
       setLoading(true);
       const res = await loginAPI(email, password);
@@ -71,68 +71,79 @@ const LoginPage = () => {
     }
   };
   return (
-    <View style={styles.container}>
-      <View>
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: 600,
-            marginVertical: 20,
-          }}>
-          Login
-        </Text>
-      </View>
-      <ShareInput
-        title="Email:"
-        keyboardType="email-address"
-        value={email}
-        setValue={setEmail}
-      />
-      <ShareInput
-        title="Password:"
-        secureTextEntry={true}
-        value={password}
-        setValue={setPassword}
-      />
-      <View style={{ marginVertical: 5 }}></View>
-      <View>
-        <ShareButton
-          loading={loading}
-          title="Login"
-          onPress={handleLogin}
-          textStyle={{ color: "#fff", paddingVertical: 5 }}
-          btnStyle={{
-            justifyContent: "center",
-            borderRadius: 30,
-            marginHorizontal: 50,
-            paddingVertical: 10,
-            backgroundColor: APP_COLOR.ORANGE,
-          }}
-          pressStyle={{
-            alignSelf: "stretch",
-          }}></ShareButton>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          gap: 10,
-          justifyContent: "center",
-          marginVertical: 15,
-        }}>
-        <Text style={{ color: "black" }}>Don't have an account ?</Text>
-
-        <Link href={"/(auth)/signup"}>
-          <Text
+    <Formik
+      validationSchema={LoginSchema}
+      initialValues={{ email: "", password: "" }}
+      onSubmit={(values) => handleLogin(values.email, values.password)}>
+      {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+        <View style={styles.container}>
+          <View>
+            <Text
+              style={{
+                fontSize: 25,
+                fontWeight: 600,
+                marginVertical: 20,
+              }}>
+              Login
+            </Text>
+          </View>
+          <ShareInput
+            title="Email:"
+            keyboardType="email-address"
+            onChangeText={handleChange("email")}
+            onBlur={handleBlur("email")}
+            value={values.email}
+            error={errors.email}
+          />
+          <ShareInput
+            title="Password:"
+            secureTextEntry={true}
+            onChangeText={handleChange("password")}
+            onBlur={handleBlur("password")}
+            value={values.password}
+            error={errors.password}
+          />
+          <View style={{ marginVertical: 5 }}></View>
+          <View>
+            <ShareButton
+              loading={loading}
+              title="Login"
+              onPress={handleSubmit}
+              textStyle={{ color: "#fff", paddingVertical: 5 }}
+              btnStyle={{
+                justifyContent: "center",
+                borderRadius: 30,
+                marginHorizontal: 50,
+                paddingVertical: 10,
+                backgroundColor: APP_COLOR.ORANGE,
+              }}
+              pressStyle={{
+                alignSelf: "stretch",
+              }}></ShareButton>
+          </View>
+          <View
             style={{
-              color: "black",
-              textDecorationLine: "underline",
+              flexDirection: "row",
+              gap: 10,
+              justifyContent: "center",
+              marginVertical: 15,
             }}>
-            Sign up.
-          </Text>
-        </Link>
-      </View>
-      <SocialButton></SocialButton>
-    </View>
+            <Text style={{ color: "black" }}>Don't have an account ?</Text>
+
+            <Link href={"/(auth)/signup"}>
+              <Text
+                style={{
+                  color: "black",
+                  textDecorationLine: "underline",
+                }}>
+                Sign up.
+              </Text>
+            </Link>
+          </View>
+          <SocialButton></SocialButton>
+        </View>
+      )}
+    </Formik>
   );
 };
 
