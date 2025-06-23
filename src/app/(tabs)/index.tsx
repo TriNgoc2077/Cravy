@@ -1,10 +1,8 @@
+import CollectionHome from "@/components/home/collection.home";
 import HeaderHome from "@/components/home/header.home";
 import SearchHome from "@/components/home/search.home";
 import TopListHome from "@/components/home/top.list.home";
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-const data = Array(10).fill(1);
+import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,9 +23,9 @@ const styles = StyleSheet.create({
   },
   item: {
     borderColor: "green",
-    borderWidth: 5,
-    height: 100,
-    marginBottom: 6,
+    borderWidth: 1,
+    height: 250,
+    marginBottom: 10,
     width: "100%",
   },
   sticky: {
@@ -40,11 +38,17 @@ const styles = StyleSheet.create({
   },
 });
 const HomeTab = () => {
+  const data = [
+    { key: 1, name: "Top Restaurant Rating 5* this week", ref: "" },
+    { key: 2, name: "New Restaurant", ref: "" },
+    { key: 3, name: "Regale, Freeship 0VND", ref: "" },
+  ];
   return (
     <CustomFlatList
       data={data}
       style={styles.list}
-      renderItem={() => <View style={styles.item} />}
+      //@ts-ignore
+      renderItem={({ item }) => <CollectionHome name={item.name} />}
       HeaderComponent={<HeaderHome />}
       StickyElementComponent={<SearchHome />}
       TopListElementComponent={<TopListHome />}
