@@ -1,18 +1,10 @@
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import BannerHome from "./banner.home";
 const data1 = Array(10).fill(1);
-const styles = StyleSheet.create({
-  topList: {
-    borderColor: "orange",
-    borderWidth: 5,
-    minHeight: 100,
-    marginBottom: 6,
-    width: "100%",
-  },
-});
+const styles = StyleSheet.create({});
 const TopListHome = () => {
   return (
-    <View style={styles.topList}>
+    <View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
