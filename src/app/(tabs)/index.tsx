@@ -41,16 +41,14 @@ const styles = StyleSheet.create({
 });
 const HomeTab = () => {
   return (
-    <SafeAreaView>
-      <CustomFlatList
-        data={data}
-        style={styles.list}
-        renderItem={() => <View style={styles.item} />}
-        HeaderComponent={<HeaderHome />}
-        StickyElementComponent={<SearchHome />}
-        TopListElementComponent={<TopListHome />}
-      />
-    </SafeAreaView>
+    <CustomFlatList
+      data={data}
+      style={styles.list}
+      renderItem={() => <View style={styles.item} />}
+      HeaderComponent={<HeaderHome />}
+      StickyElementComponent={<SearchHome />}
+      TopListElementComponent={<TopListHome />}
+    />
   );
 };
 
