@@ -1,3 +1,4 @@
+import CustomFlatList from "@/components/customFlatList/custom.flat.list";
 import CollectionHome from "@/components/home/collection.home";
 import HeaderHome from "@/components/home/header.home";
 import SearchHome from "@/components/home/search.home";

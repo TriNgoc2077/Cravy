@@ -10,6 +10,7 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { RootSiblingParent } from "react-native-root-siblings";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AppProvider from "@/context/app.context";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -31,25 +32,27 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={navTheme}>
       <RootSiblingParent>
-        <SafeAreaView style={{ flex: 1 }}>
-          <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="(auth)/signup"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="(auth)/verify"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="(auth)/login"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-        </SafeAreaView>
+        <AppProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="(auth)/signup"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="(auth)/verify"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="(auth)/login"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+          </SafeAreaView>
+        </AppProvider>
       </RootSiblingParent>
       <StatusBar style="auto" />
     </ThemeProvider>
