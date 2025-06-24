@@ -1,156 +1,47 @@
-import ShareButton from "@/components/button/share.button";
-import TextBetweenLine from "@/components/text.between.line";
-import { APP_COLOR } from "@/utils/constant";
-import { LinearGradient } from "expo-linear-gradient";
-import { Link, Redirect, router } from "expo-router";
-import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
-import bg from "@/assets/auth/background.jpg";
-import fbLogo from "@/assets/auth/Facebook.png";
-import ggLogo from "@/assets/auth/Google.png";
+import { router } from "expo-router";
+import { Text, View } from "react-native";
 import { useEffect } from "react";
 import { getAccountAPI } from "@/utils/api";
 import { useCurrentApp } from "@/context/app.context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 15,
-  },
-  welcomeText: {
-    flex: 0.6,
-    alignItems: "flex-start",
-    justifyContent: "center",
-    paddingLeft: 20,
-  },
-  welcomeBtn: {
-    flex: 0.4,
-    gap: 30,
-  },
-  heading: {
-    fontSize: 40,
-    fontWeight: "600",
-  },
-  name: {
-    fontSize: 30,
-    color: APP_COLOR.ORANGE,
-    marginVertical: 10,
-  },
-  slogan: {},
-});
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
 
-const WelcomePage = () => {
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
+const RootPage = () => {
   const { setAppState } = useCurrentApp();
 
   useEffect(() => {
-    const fetchAccount = async () => {
-      const res = await getAccountAPI();
-      if (res.data) {
-        setAppState({
-          user: res.data.user,
-          access_token: await AsyncStorage.getItem("access_token"),
-        });
-        router.replace("/(tabs)");
-      } else {
-        //error
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        const res = await getAccountAPI();
+        if (res.data) {
+          setAppState({
+            user: res.data.user,
+            access_token: await AsyncStorage.getItem("access_token"),
+          });
+          router.replace("/(tabs)");
+        } else {
+          //error
+          router.replace("/(auth)/welcome");
+        }
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        await SplashScreen.hideAsync();
       }
-    };
-    fetchAccount();
-  }, []);
-  if (true) {
-    return <Redirect href={"/(tabs)"}></Redirect>;
-  }
-  return (
-    <ImageBackground style={{ flex: 1 }} source={bg}>
-      <LinearGradient
-        colors={["transparent", "rgba(0,0,0,0.4)"]}
-        style={{ flex: 1 }}
-        locations={[0.5, 0.7]}>
-        <View style={styles.container}>
-          <View style={styles.welcomeText}>
-            <Text style={styles.heading}>Welcome to</Text>
-            <Text style={styles.name}>Cravy</Text>
-            <Text style={styles.slogan}>Enjoy your tasty food!</Text>
-          </View>
-          <View style={styles.welcomeBtn}>
-            <TextBetweenLine title="Login with"></TextBetweenLine>
-            <View style={{ gap: 15 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  gap: 30,
-                }}>
-                <ShareButton
-                  title="Facebook"
-                  onPress={() => alert("me")}
-                  textStyle={{ textTransform: "none" }}
-                  pressStyle={{ alignSelf: "flex-start" }}
-                  btnStyle={{
-                    backgroundColor: "#fff",
-                    justifyContent: "center",
-                    borderRadius: 40,
-                  }}
-                  icon={<Image source={fbLogo} />}
-                />
-                <ShareButton
-                  title="Google"
-                  onPress={() => alert("me")}
-                  textStyle={{ textTransform: "none" }}
-                  pressStyle={{ alignSelf: "flex-end" }}
-                  btnStyle={{
-                    backgroundColor: "#fff",
-                    justifyContent: "center",
-                    paddingHorizontal: 20,
-                    borderRadius: 40,
-                  }}
-                  icon={<Image source={ggLogo} />}
-                />
-              </View>
-              <View>
-                <ShareButton
-                  title="Start with your email"
-                  onPress={() => router.navigate("/(auth)/login")}
-                  textStyle={{
-                    color: "#fff",
-                    paddingVertical: 5,
-                  }}
-                  btnStyle={{
-                    justifyContent: "center",
-                    borderRadius: 30,
-                    marginHorizontal: 50,
-                    paddingVertical: 10,
-                    backgroundColor: "#2c2c2c",
-                    borderColor: "#505050",
-                    borderWidth: 1,
-                  }}
-                  pressStyle={{
-                    alignSelf: "stretch",
-                  }}></ShareButton>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
-                }}>
-                <Text style={{ color: "white" }}>Don't have an account ?</Text>
+    }
 
-                <Link href={"/(auth)/signup"}>
-                  <Text
-                    style={{
-                      color: "white",
-                      textDecorationLine: "underline",
-                    }}>
-                    Sign up.
-                  </Text>
-                </Link>
-              </View>
-            </View>
-          </View>
-        </View>
-      </LinearGradient>
-    </ImageBackground>
-  );
+    prepare();
+  }, []);
+  // if (true) {
+  //   return <Redirect href={"/(tabs)"}></Redirect>;
+  // }
+  return <></>;
 };
 
-export default WelcomePage;
+export default RootPage;

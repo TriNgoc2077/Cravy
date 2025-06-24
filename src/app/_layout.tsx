@@ -48,6 +48,10 @@ export default function RootLayout() {
                 name="(auth)/login"
                 options={{ headerShown: false }}
               />
+              <Stack.Screen
+                name="(auth)/welcome"
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
             </Stack>
