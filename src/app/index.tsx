@@ -7,6 +7,10 @@ import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import bg from "@/assets/auth/background.jpg";
 import fbLogo from "@/assets/auth/Facebook.png";
 import ggLogo from "@/assets/auth/Google.png";
+import { useEffect } from "react";
+import { getAccountAPI } from "@/utils/api";
+import { useCurrentApp } from "@/context/app.context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -35,6 +39,23 @@ const styles = StyleSheet.create({
 });
 
 const WelcomePage = () => {
+  const { setAppState } = useCurrentApp();
+
+  useEffect(() => {
+    const fetchAccount = async () => {
+      const res = await getAccountAPI();
+      if (res.data) {
+        setAppState({
+          user: res.data.user,
+          access_token: await AsyncStorage.getItem("access_token"),
+        });
+        router.replace("/(tabs)");
+      } else {
+        //error
+      }
+    };
+    fetchAccount();
+  }, []);
   if (true) {
     return <Redirect href={"/(tabs)"}></Redirect>;
   }

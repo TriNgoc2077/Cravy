@@ -9,6 +9,8 @@ import { StyleSheet, Text, View } from "react-native";
 import Toast from "react-native-root-toast";
 import { Formik } from "formik";
 import { LoginSchema } from "@/utils/validate.schema";
+import { useCurrentApp } from "@/context/app.context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
   container: {
@@ -34,12 +36,15 @@ const styles = StyleSheet.create({
 });
 
 const LoginPage = () => {
+  const { setAppState } = useCurrentApp();
   const [loading, setLoading] = useState<boolean>(false);
   const handleLogin = async (email: string, password: string) => {
     try {
       setLoading(true);
       const res = await loginAPI(email, password);
       if (res.data) {
+        await AsyncStorage.setItem("access_token", res.data.access_token);
+        setAppState(res.data);
         router.replace("/(tabs)");
       } else {
         if (res.statusCode === 400) {
