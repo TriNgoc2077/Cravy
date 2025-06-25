@@ -13,10 +13,12 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
+    "@react-native-async-storage/async-storage": "2.1.2",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
     "axios": "^1.9.0",
+    "debounce": "^2.2.0",
     "expo": "~53.0.10",
     "expo-blur": "~14.1.5",
     "expo-constants": "~17.1.6",
@@ -43,10 +45,11 @@
     "react-native-root-toast": "^4.0.1",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
+    "react-native-tabs-section-list": "^1.0.1",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
-    "yup": "^1.6.1",
-    "@react-native-async-storage/async-storage": "2.1.2"
+    "undefined": "faker-js/faker",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
