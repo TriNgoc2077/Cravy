@@ -1,5 +1,6 @@
 import { getURLBaseBackend, processDataRestaurantMenu } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
+import { AntDesign } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import {
   Dimensions,
@@ -18,6 +19,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import ItemQuantity from "../order/item.quantity";
+import StickyFooter from "../order/sticky.footer";
 interface IProps {
   restaurant: IRestaurant | null;
 }
@@ -145,6 +148,7 @@ const RMain = (props: IProps) => {
             <Image source={item.image} style={styles.itemImage} />
             <Text>{item.name}</Text>
             <Text style={{ color: "red" }}>{item.price}</Text>
+            <ItemQuantity menuItem={item} restaurant={restaurant} />
           </View>
         )}
         renderSectionHeader={({ section }: { section: any }) => (
@@ -152,6 +156,7 @@ const RMain = (props: IProps) => {
         )}
         contentContainerStyle={{
           paddingTop: IMAGE_HEIGHT + INFO_HEIGHT + SLIDE_MENU_HEIGHT,
+          paddingBottom: 50,
         }}
       />
 
@@ -159,6 +164,7 @@ const RMain = (props: IProps) => {
       <Animated.View style={animatedStickyHeaderStyle}>
         <Text style={{ fontWeight: "bold" }}>Bún Bò 1991</Text>
       </Animated.View>
+      <StickyFooter />
     </View>
   );
 };

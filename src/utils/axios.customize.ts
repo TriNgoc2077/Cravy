@@ -9,7 +9,7 @@ const backend =
 
 const instance = axios.create({
   baseURL: backend,
-  timeout: 10 * 1000,
+  timeout: 20 * 1000,
 });
 
 // Add a request interceptor
