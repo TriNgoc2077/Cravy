@@ -1,16 +1,25 @@
 import { useCurrentApp } from "@/context/app.context";
 import { APP_COLOR } from "@/utils/constant";
 import { AntDesign } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { Pressable, Text, View } from "react-native";
+import ItemSingle from "./item.single";
 
 interface IProps {
   menuItem: IMenuItem;
   restaurant: IRestaurant | null;
+  isModal: boolean;
 }
 const ItemQuantity = (props: IProps) => {
-  const { menuItem, restaurant } = props;
+  const { menuItem, restaurant, isModal } = props;
   const { cart, setCart } = useCurrentApp();
   const handlePressItem = (item: IMenuItem, action: "MINUS" | "PLUS") => {
+    if (item.options.length && !isModal) {
+      router.navigate({
+        pathname: "/product/create.modal",
+        params: { menuItemId: menuItem._id },
+      });
+    }
     if (restaurant?._id) {
       const total = action === "MINUS" ? -1 : 1;
 
@@ -53,44 +62,12 @@ const ItemQuantity = (props: IProps) => {
     }
   }
   return (
-    <View
-      style={{
-        alignItems: "center",
-        flexDirection: "row",
-        gap: 3,
-      }}>
-      {showMinus && (
-        <>
-          <Pressable
-            style={({ pressed }) => [
-              {
-                opacity: pressed ? 0.5 : 1,
-                alignSelf: "flex-start",
-              },
-            ]}
-            onPress={() => handlePressItem(menuItem, "MINUS")}>
-            <AntDesign name="minussquareo" size={24} color={APP_COLOR.ORANGE} />
-          </Pressable>
-          <Text
-            style={{
-              minWidth: 25,
-              textAlign: "center",
-            }}>
-            {quantity}
-          </Text>
-        </>
-      )}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            opacity: pressed ? 0.5 : 1,
-            alignSelf: "flex-start",
-          },
-        ]}
-        onPress={() => handlePressItem(menuItem, "PLUS")}>
-        <AntDesign name="plussquare" size={24} color={APP_COLOR.ORANGE} />
-      </Pressable>
-    </View>
+    <ItemSingle
+      menuItem={menuItem}
+      handlePressItem={handlePressItem}
+      showMinus={showMinus}
+      quantity={quantity}
+    />
   );
 };
 

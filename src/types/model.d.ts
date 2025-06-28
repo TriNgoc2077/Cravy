@@ -70,7 +70,7 @@ declare global {
       title: string;
       description: string;
       additionalPrice: number;
-    };
+    }[];
     createdAt: Date;
     updatedAt: Date;
   }

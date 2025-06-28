@@ -21,9 +21,7 @@ import Animated, {
 } from "react-native-reanimated";
 import ItemQuantity from "../order/item.quantity";
 import StickyFooter from "../order/sticky.footer";
-interface IProps {
-  restaurant: IRestaurant | null;
-}
+import { useCurrentApp } from "@/context/app.context";
 const { height: sHeight, width: sWidth } = Dimensions.get("window");
 const HEADER_HEIGHT = 80;
 const IMAGE_HEIGHT = 220;
@@ -32,8 +30,8 @@ const SLIDE_MENU_HEIGHT = 50;
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
-const RMain = (props: IProps) => {
-  const { restaurant } = props;
+const RMain = () => {
+  const { restaurant } = useCurrentApp();
   const scrollY = useSharedValue(0);
   const sectionListRef = useRef(null);
   const [activeMenuIndex, setActiveMenuIndex] = useState(0);
@@ -148,7 +146,11 @@ const RMain = (props: IProps) => {
             <Image source={item.image} style={styles.itemImage} />
             <Text>{item.name}</Text>
             <Text style={{ color: "red" }}>{item.price}</Text>
-            <ItemQuantity menuItem={item} restaurant={restaurant} />
+            <ItemQuantity
+              menuItem={item}
+              restaurant={restaurant}
+              isModal={false}
+            />
           </View>
         )}
         renderSectionHeader={({ section }: { section: any }) => (
