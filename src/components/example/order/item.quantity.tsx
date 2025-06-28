@@ -37,8 +37,21 @@ const ItemQuantity = (props: IProps) => {
         data: menuItem,
         quantity: cart[restaurant._id].items[item._id].quantity + total,
       };
+      if (cart[restaurant._id].items[item._id].quantity <= 0) {
+        delete cart[restaurant._id].items[item._id];
+      }
+      setCart((prevState: any) => ({ ...prevState, cart }));
     }
   };
+  let showMinus = false;
+  let quantity = 0;
+  if (restaurant?._id) {
+    const store = cart[restaurant?._id];
+    if (store?.items && store.items[menuItem._id]) {
+      showMinus = true;
+      quantity = store.items[menuItem._id].quantity;
+    }
+  }
   return (
     <View
       style={{
@@ -46,23 +59,27 @@ const ItemQuantity = (props: IProps) => {
         flexDirection: "row",
         gap: 3,
       }}>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            opacity: pressed ? 0.5 : 1,
-            alignSelf: "flex-start",
-          },
-        ]}
-        onPress={() => handlePressItem(menuItem, "MINUS")}>
-        <AntDesign name="minussquareo" size={24} color={APP_COLOR.ORANGE} />
-      </Pressable>
-      <Text
-        style={{
-          minWidth: 25,
-          textAlign: "center",
-        }}>
-        10
-      </Text>
+      {showMinus && (
+        <>
+          <Pressable
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.5 : 1,
+                alignSelf: "flex-start",
+              },
+            ]}
+            onPress={() => handlePressItem(menuItem, "MINUS")}>
+            <AntDesign name="minussquareo" size={24} color={APP_COLOR.ORANGE} />
+          </Pressable>
+          <Text
+            style={{
+              minWidth: 25,
+              textAlign: "center",
+            }}>
+            {quantity}
+          </Text>
+        </>
+      )}
       <Pressable
         style={({ pressed }) => [
           {

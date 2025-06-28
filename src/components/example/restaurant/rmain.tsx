@@ -164,7 +164,8 @@ const RMain = (props: IProps) => {
       <Animated.View style={animatedStickyHeaderStyle}>
         <Text style={{ fontWeight: "bold" }}>Bún Bò 1991</Text>
       </Animated.View>
-      <StickyFooter />
+
+      <StickyFooter restaurant={restaurant} />
     </View>
   );
 };
